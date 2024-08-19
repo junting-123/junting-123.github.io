@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="&emsp;&emsp;集群技术是一种通过将多台计算机（节点）联合在一起，以提供单一服务或实现高性能、高可用性和可扩展性的技术。其应用场景非常广泛，可应用于广泛应用于科学计算、大数据处理、网络服务等领域。&emsp;&emsp;集群管理在现代 IT 基础设施中起着至关重要的作用，而其管理涉及到集群的部署、监控、维护和优化。以下时根据研究生阶段在中物院短暂的集群运维经验，相关知识整理记录如下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集群智能管理与监控">
+<meta property="og:url" content="http://example.com/2024/08/19/%E9%9B%86%E7%BE%A4%E6%99%BA%E8%83%BD%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/index.html">
+<meta property="og:site_name" content="Junting-Li&#39;s Blog">
+<meta property="og:description" content="&emsp;&emsp;集群技术是一种通过将多台计算机（节点）联合在一起，以提供单一服务或实现高性能、高可用性和可扩展性的技术。其应用场景非常广泛，可应用于广泛应用于科学计算、大数据处理、网络服务等领域。&emsp;&emsp;集群管理在现代 IT 基础设施中起着至关重要的作用，而其管理涉及到集群的部署、监控、维护和优化。以下时根据研究生阶段在中物院短暂的集群运维经验，相关知识整理记录如下。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-08-19T15:06:12.105Z">
+<meta property="article:modified_time" content="2024-08-19T15:08:52.782Z">
+<meta property="article:author" content="Junting-Li">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2024/08/19/%E9%9B%86%E7%BE%A4%E6%99%BA%E8%83%BD%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2024/08/19/%E9%9B%86%E7%BE%A4%E6%99%BA%E8%83%BD%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/","path":"2024/08/19/集群智能管理与监控/","title":"集群智能管理与监控"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>集群智能管理与监控 | Junting-Li's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Junting-Li's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">1.</span> <span class="nav-text">Linux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">计算机硬件介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E6%A0%B8%E5%BF%83%E5%91%BD%E4%BB%A4"><span class="nav-number">1.2.</span> <span class="nav-text">Linux核心命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4"><span class="nav-number">1.3.</span> <span class="nav-text">Linux文本处理命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E7%B3%BB%E7%BB%9F%E5%92%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="nav-number">1.4.</span> <span class="nav-text">Linux系统和进程管理命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">1.5.</span> <span class="nav-text">Linux网络命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vim%E7%BC%96%E8%AF%91%E4%B8%8Eshell%E8%84%9A%E6%9C%AC"><span class="nav-number">1.6.</span> <span class="nav-text">vim编译与shell脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E6%95%B4%E6%9C%BA%E5%8E%8B%E6%B5%8B"><span class="nav-number">2.</span> <span class="nav-text">集群整机压测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Slurm%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.1.</span> <span class="nav-text">Slurm调度系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sinfo"><span class="nav-number">2.2.</span> <span class="nav-text">sinfo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%91%E5%BE%AA%E7%8E%AF%E8%AE%A1%E7%AE%97"><span class="nav-number">2.3.</span> <span class="nav-text">跑循环计算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%91%E6%8E%A7%E4%B8%8E%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">监控与日志管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%85%B3%E6%9C%BA"><span class="nav-number">3.1.</span> <span class="nav-text">远程开关机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%A9%E5%BA%A6%E7%9B%91%E6%8E%A7"><span class="nav-number">3.2.</span> <span class="nav-text">温度监控</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Junting-Li"
+      src="/images/1.jpg">
+  <p class="site-author-name" itemprop="name">Junting-Li</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/19/%E9%9B%86%E7%BE%A4%E6%99%BA%E8%83%BD%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="Junting-Li">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Junting-Li's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="集群智能管理与监控 | Junting-Li's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          集群智能管理与监控
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2024-08-19 23:06:12 / Modified: 23:08:52" itemprop="dateCreated datePublished" datetime="2024-08-19T23:06:12+08:00">2024-08-19</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>&emsp;&emsp;集群技术是一种通过将多台计算机（节点）联合在一起，以提供单一服务或实现高性能、高可用性和可扩展性的技术。其应用场景非常广泛，可应用于广泛应用于科学计算、大数据处理、网络服务等领域。<br>&emsp;&emsp;集群管理在现代 IT 基础设施中起着至关重要的作用，而其管理涉及到集群的部署、监控、维护和优化。以下时根据研究生阶段在中物院短暂的集群运维经验，相关知识整理记录如下。</p>
+<span id="more"></span>
+
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>Linux是一个开源、自由传播、支持多用户同时操作、多任务、支持多CPU、多线程的操作系统。集群的管理通常需要使用到 Linux 命令，包括从节点的配置、部署到日常的维护、监控和调试。所以具备一定的Linux操作系统知识非常有必要。</p>
+<h3 id="计算机硬件介绍"><a href="#计算机硬件介绍" class="headerlink" title="计算机硬件介绍"></a>计算机硬件介绍</h3><ul>
+<li>CPU：中央处理器。进行逻辑运算和调度其他设备工作，服务器cpu在2-4颗，单核cpu是4核，总量在16-256G左右</li>
+<li>内存条:存储临时数据。内存解决的是cpu和磁盘之间的速度不平等，cpu处理过快，磁盘速度太慢，这中间就需要搭起传输桥梁。默认下，cpu是从内存中读写数据，内存从磁盘中获取数据。</li>
+<li>显卡：处理计算机图形相关工作。</li>
+<li>主板：集成电路板，将所有元件连接在一起。BIOS则为主板设置系统。</li>
+<li>硬盘：用于存储计算机数据。</li>
+</ul>
+<p>输入设备为键盘鼠标，能够发送设备；输出设备为显示屏；主机部分则为机箱，保护零件。</p>
+<h3 id="Linux核心命令"><a href="#Linux核心命令" class="headerlink" title="Linux核心命令"></a>Linux核心命令</h3><p>Linux目录结构：</p>
+<ul>
+<li>&#x2F;     #根目录</li>
+<li>&#x2F;dev  #存放抽象硬件</li>
+<li>&#x2F;lib  #存放系统库文件</li>
+<li>&#x2F;sbin  #存放特权级二级制文件</li>
+<li>&#x2F;var   #存放经常变化的文件</li>
+<li>&#x2F;home  #普通用户目录</li>
+<li>&#x2F;etc   #存放配置文件目录</li>
+<li>&#x2F;boot  #存放内核与启动文件</li>
+<li>&#x2F;bin   #存放二进制文件（可执行命令）</li>
+<li>&#x2F;usr   #存放安装程序（软件默认目录）</li>
+<li>&#x2F;mnt   #文件挂在目录（u盘、光驱）</li>
+<li>&#x2F;root  #特权用户目录</li>
+<li>&#x2F;opt   #大型软件存放目录（非强制）<br>其中文件有三种权限：r为可读权限；w为可写权限；x为可执行权限</li>
+</ul>
+<p>Linux核心命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span>     <span class="comment">#跳转目录</span></span><br><span class="line"><span class="built_in">ls</span>     <span class="comment">#列出文件夹内容</span></span><br><span class="line"><span class="built_in">pwd</span>    <span class="comment">#打印工作目录</span></span><br><span class="line">su     <span class="comment">#命令用户切换</span></span><br><span class="line"><span class="built_in">logout</span> <span class="comment">#退出当前的用户</span></span><br><span class="line"><span class="built_in">mkdir</span>  <span class="comment">#创建文件夹</span></span><br><span class="line"><span class="built_in">touch</span>  <span class="comment">#创建普通文件</span></span><br><span class="line"><span class="built_in">cp</span>     <span class="comment">#./junting1/JUNTING.txt ;复制放入其他文件夹并改名</span></span><br><span class="line"><span class="built_in">cat</span>    <span class="comment">#显示文件内容</span></span><br><span class="line"><span class="built_in">echo</span>   <span class="comment">#输出文本到终端</span></span><br><span class="line"><span class="built_in">rm</span>     <span class="comment">#删除；rm -f（强制删除不提示);*删除文件夹必须加上-r</span></span><br></pre></td></tr></table></figure>
+<p>如果想要查看帮助，输入q 退出。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#man + 命令  #查看帮助，输入q 退出</span></span><br><span class="line"><span class="comment">#命令  --help</span></span><br><span class="line"><span class="comment">#help 命令</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Linux文本处理命令"><a href="#Linux文本处理命令" class="headerlink" title="Linux文本处理命令"></a>Linux文本处理命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">grep  <span class="comment">#搜索文本中的模式；grep -i &quot;pattern&quot; file.txt(在 file.txt 文件中搜索包含 pattern 的所有行)</span></span><br><span class="line">awk   <span class="comment">#处理文本数据；awk &#x27;$1 == &quot;value&quot;&#x27; file.txt(打印 file.txt 中第一字段等于 value 的行)</span></span><br><span class="line">sed   <span class="comment">#流编辑器，用于文本替换和编辑。</span></span><br><span class="line"><span class="built_in">cut</span>   <span class="comment">#从文本中提取字段；cut -c 4-6 alex.txt (每行从第4个切割刀第6个字符)</span></span><br><span class="line"><span class="built_in">sort</span>  <span class="comment">#对文本进行排序；sort -n sort.txt(针对数字从小到大排序，加个r从大到小)</span></span><br><span class="line"><span class="built_in">uniq</span>  <span class="comment">#删除重复行。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Linux系统和进程管理命令"><a href="#Linux系统和进程管理命令" class="headerlink" title="Linux系统和进程管理命令"></a>Linux系统和进程管理命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ps      <span class="comment">#显示当前进程。</span></span><br><span class="line">top     <span class="comment">#实时显示系统资源使用情况（Git Bash 不支持）。</span></span><br><span class="line"><span class="built_in">kill</span>    <span class="comment">#终止进程。</span></span><br><span class="line"><span class="built_in">uptime</span>  <span class="comment">#显示系统运行时间（Git Bash 不支持）。</span></span><br><span class="line"><span class="built_in">df</span>      <span class="comment">#显示文件系统磁盘空间使用情况。</span></span><br><span class="line"><span class="built_in">du</span>      <span class="comment">#显示目录或文件的磁盘使用量。</span></span><br></pre></td></tr></table></figure>
+<h3 id="Linux网络命令"><a href="#Linux网络命令" class="headerlink" title="Linux网络命令"></a>Linux网络命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ping    <span class="comment">#检查网络连通性。</span></span><br><span class="line">curl    <span class="comment">#下载或上传数据。</span></span><br><span class="line">wget    <span class="comment">#下载文件。</span></span><br><span class="line">ssh     <span class="comment">#通过 SSH 连接到远程主机。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="vim编译与shell脚本"><a href="#vim编译与shell脚本" class="headerlink" title="vim编译与shell脚本"></a>vim编译与shell脚本</h3><p>Vim 是一种高度可配置的文本编辑器，常用于编程和系统管理。它基于 vi 编辑器，提供了更多的功能和灵活性。他具有三种基本模式：</p>
+<ul>
+<li>普通模式<br>这是 Vim 启动时的默认模式，用于导航和执行命令。可以通过按 Esc 键进入普通模式。</li>
+<li>插入模式<br>在插入模式中，你可以插入和编辑文本。通过按 i、I、a、A、o、O 等键进入插入模式，按 Esc 返回普通模式。</li>
+<li>命令模式<br>在命令模式中，你可以执行各种命令，如保存文件、退出 Vim 等。通过按 : 进入命令模式，输入命令后按 Enter 执行。</li>
+</ul>
+<p>vim启动与保存退出的相关命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim filename  <span class="comment">#启动</span></span><br><span class="line">：wq          <span class="comment">#保存退出</span></span><br><span class="line">：w           <span class="comment">#只保存</span></span><br><span class="line">：q           <span class="comment">#只退出</span></span><br></pre></td></tr></table></figure>
+<p>Shell 脚本称为bash shell 程序，本质就是将一系列 Linux 命令和控制结构组织在一起，通过脚本文件来实现自动化任务和批量处理。Shell 脚本可以包含各种 Shell 命令、条件语句、循环、函数等，用于执行复杂的操作和实现自动化功能。通常显示为 *.sh 文件。如下为shell脚本经典实例（可在window中git bash测试）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># 获取用户输入</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;Enter your name: &quot;</span> name</span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;Enter your age: &quot;</span> age</span><br><span class="line"><span class="comment"># 输出信息</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello, <span class="variable">$name</span>! You are <span class="variable">$age</span> years old.&quot;</span></span><br></pre></td></tr></table></figure>
+<p>其中#!&#x2F;bin&#x2F;bash是脚本文件的解释器，一种特殊注释为Shebang行（能够指定解释器，确保脚本在不同环境中的一致性，并简化脚本的执行）。它告诉操作系统在执行脚本时应该使用哪个程序来解释脚本中的命令。但他不是强制性的，它只是一个最佳实践。<br>运行shell脚本有两种方式</p>
+<ul>
+<li>直接.&#x2F;*.sh</li>
+<li>sh *.sh</li>
+</ul>
+<h2 id="集群整机压测"><a href="#集群整机压测" class="headerlink" title="集群整机压测"></a>集群整机压测</h2><h3 id="Slurm调度系统"><a href="#Slurm调度系统" class="headerlink" title="Slurm调度系统"></a>Slurm调度系统</h3><p>Slurm（Simple Linux Utility for Resource Management）是一个开源的、高效的集群管理调度系统，用于管理和调度大型计算集群中的计算资源。Slurm具有高可用性和可扩展性，易于使用，提供了丰富的命令行界面和API，可以为科学研究和工程计算等领域提供高效的支持。<br>*注：参与运维集群时，已部署好Slurm调度系统。</p>
+<h3 id="sinfo"><a href="#sinfo" class="headerlink" title="sinfo"></a>sinfo</h3><p>集群系统中的单个计算机通常称为节点，通常通过局域网连接。sinfo是 Slurm 作业调度系统中用于查询集群状态的命令。期间我主要用它做整机测试，检测服务器的连接状态。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sinfo</span><br></pre></td></tr></table></figure>
+<p>sinfo通常包括以下字段</p>
+<ul>
+<li>PARTITION：分区名称。分区是 Slurm 中的一个资源池，作业被调度到特定的分区中。</li>
+<li>NODELIST：节点列表。显示分区中包括的所有节点的名称。</li>
+<li>STATE：节点的状态。常见的状态包括<br>idle      #空闲，没有正在运行的作业<br>drain     #节点处于维护模式，暂时不接受作业。<br>down*     #节点无法使用，故障<br>mixed     #节点部分空闲，部分已分配。<br>alloc     #节点已分配给正在运行的作业。</li>
+</ul>
+<p>如下是sinfo的示例输出，实时输出每个节点的运行状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PARTITION  AVAIL  TIMELIMIT  NODES  STATE  NODELIST</span><br><span class="line">debug*     up     infinite   4      idle   node[01-04]</span><br><span class="line">compute    up     infinite   6      alloc  node[05-10]</span><br></pre></td></tr></table></figure>
+<p>我们也可以使用脚本定期检查节点是否有任何故障（如 “down” 状态）是维护集群健康的重要部分。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span></span><br><span class="line">  sinfo | grep -i down</span><br><span class="line">  <span class="built_in">sleep</span> 60</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="跑循环计算"><a href="#跑循环计算" class="headerlink" title="跑循环计算"></a>跑循环计算</h3><p>考虑到实际使用中，集群可能出现间断计算使用，导致忽冷忽热，硬件可能在温度循环中变得不稳定，所以为了验证其整机的可靠性，我们采用每半个小时负载跑计算，停止半小时，再继续半小时计算，如此循环状态下，检测集群在高负载循环下能够稳定运行，并且不会因为过热而导致性能下降或硬件损坏。</p>
+<ul>
+<li><p>首先确保集群节点上已安装 stress 工具</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install stress</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置 SSH 密钥登录<br>为了无密码登录到每个节点，可以配置 SSH 密钥对</p>
+</li>
+<li><p>编写计算脚本stress_test.sh：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 节点列表，按照实际情况替换</span></span><br><span class="line">NODES=(<span class="string">&quot;node1&quot;</span> <span class="string">&quot;node2&quot;</span> <span class="string">&quot;node3&quot;</span>)  <span class="comment"># 替换为你的集群节点名或 IP 地址</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 负载参数</span></span><br><span class="line">CPU_LOAD=4     <span class="comment"># 每个节点上启动的 CPU 负载数</span></span><br><span class="line">MEMORY_LOAD=2G <span class="comment"># 每个节点上模拟的内存负载</span></span><br><span class="line">DURATION=3600  <span class="comment"># 负载持续时间（秒）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 远程命令</span></span><br><span class="line">STRESS_CMD=<span class="string">&quot;stress --cpu <span class="variable">$&#123;CPU_LOAD&#125;</span> --vm 1 --vm-bytes <span class="variable">$&#123;MEMORY_LOAD&#125;</span> --timeout <span class="variable">$&#123;DURATION&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历节点并运行负载测试</span></span><br><span class="line"><span class="keyword">for</span> NODE <span class="keyword">in</span> <span class="string">&quot;<span class="variable">$&#123;NODES[@]&#125;</span>&quot;</span>; <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Starting stress test on <span class="variable">$&#123;NODE&#125;</span>...&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 使用 SSH 远程执行负载测试命令</span></span><br><span class="line">    ssh <span class="string">&quot;hadmin@<span class="variable">$&#123;NODE&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;STRESS_CMD&#125;</span>&quot;</span> &amp;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> [ $? -ne 0 ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Failed to start stress test on <span class="variable">$&#123;NODE&#125;</span>&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Stress test started on <span class="variable">$&#123;NODE&#125;</span>&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待所有后台进程完成</span></span><br><span class="line"><span class="built_in">wait</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Stress testing completed on all nodes.&quot;</span></span><br></pre></td></tr></table></figure>
+<p>这个脚本会在集群中的每个节点上启动负载测试，模拟高负载情况，以帮助评估系统的稳定性和性能。你可以根据实际需求调整脚本中的节点列表、负载参数和其他设置。</p>
+<ul>
+<li>运行脚本<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./stress_test.sh</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="监控与日志管理"><a href="#监控与日志管理" class="headerlink" title="监控与日志管理"></a>监控与日志管理</h2><p>###IPMI<br>在集群管理中，研究所使用到的服务器在179台左右，需要对大量服务器进行监控与管理，特别是初期硬件不太稳定，主要对硬件层面的管控。然而我们不可能一天24小时呆在机房，所以需要远程管理系统对其进行控制。<br>IPMI是一种用于系统管理的标准接口，可用于监控和管理计算机系统的硬件，允许管理员对服务器进行远程操控（孩子再也不用来回跑机房了~~）。<br>IPMI主要功能：</p>
+<ul>
+<li>远程监控<br>1、硬件健康状态：监控系统的温度、风扇速度、电压、硬件故障等；<br>3、远程管理：远程开关机：允许管理员在系统远程关闭、重启或启动服务器。<br>4、远程控制：提供对服务器的远程控制，包括远程访问 BIOS 设置和操作系统。<br>5、重置系统：可以远程重置系统，以解决系统挂起或崩溃问题。</li>
+<li>传感器监控<br>1、温度传感器：监控 CPU、主板和其他组件的温度。<br>2、风扇速度：监控风扇速度，确保散热系统正常工作。<br>3、电压传感器：监控系统的电压水平，确保稳定性。</li>
+<li>日志记录：<br>系统事件日志：记录硬件事件和错误，以帮助进行故障排除；</li>
+<li>远程控制台：<br>提供对服务器的虚拟控制台访问，允许管理员在操作系统启动之前进行控制和操作。</li>
+</ul>
+<p>IPMI 的组成：</p>
+<ul>
+<li>BMC（Baseboard Management Controller）：<br>这是 IPMI 的核心组件，负责与服务器的硬件进行通信，处理传感器数据和远程管理命令。<br>通常，BMC 是集成在主板上的专用微控制器。即使操作系统崩溃，BMC 仍然可以监控和管理硬件。</li>
+<li>IPMI 规范：<br>这是一个定义 IPMI 功能和接口的标准，规定了如何进行硬件监控和管理。</li>
+<li>管理软件：<br>提供与 BMC 进行通信的工具和应用程序，允许管理员通过图形用户界面或命令行工具来管理系统</li>
+</ul>
+<p>了解完IPMI强大功能，我们对其进行安装，在 Debian&#x2F;Ubuntu 系统中,安装IPMI，帮助读取主板和其他传感器温度数据:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install ipmitool</span><br></pre></td></tr></table></figure>
+<h3 id="远程开关机"><a href="#远程开关机" class="headerlink" title="远程开关机"></a>远程开关机</h3><p>集群使用的IPMI默认用户名admin以及密码admin，可通过ssh经过ipmi控制，实现服务器远程开关机。命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ipmitool -I  lanplus -H 地址 -U admin -P admin power reset <span class="comment">#开机</span></span><br><span class="line">ipmitool -I lanplus -H &lt;IPMI_IP&gt; -U &lt;USERNAME&gt; -P &lt;PASSWORD&gt; power off</span><br><span class="line"><span class="comment">#关机</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="温度监控"><a href="#温度监控" class="headerlink" title="温度监控"></a>温度监控</h3><p>高集中的服务器产生大量热量，所以对温度的监控十分重要。除了安装机房温度报警装置，初期还要定时监控主板温度。可以从ipmi接口获取温度信息。<br>编写shell脚本检测温度，它将使用 ipmitool 工具从每个节点获取主板温度，并记录到日志文件中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 节点列表，按照实际情况替换</span></span><br><span class="line">NODES=(<span class="string">&quot;node1&quot;</span> <span class="string">&quot;node2&quot;</span> <span class="string">&quot;node3&quot;</span>)  <span class="comment"># 替换为你的集群节点名或 IP 地址</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># IPMI 配置信息</span></span><br><span class="line">IPMI_USER=<span class="string">&quot;admin&quot;</span>  <span class="comment"># 替换为实际的 IPMI 用户名</span></span><br><span class="line">IPMI_PASS=<span class="string">&quot;password&quot;</span>  <span class="comment"># 替换为实际的 IPMI 密码</span></span><br><span class="line">IPMI_INTERFACE=<span class="string">&quot;lanplus&quot;</span>  <span class="comment"># IPMI 接口类型（例如 lanplus）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 温度监控日志文件</span></span><br><span class="line">LOGFILE=<span class="string">&quot;/var/log/ipmi_temp.log&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入日志文件的函数</span></span><br><span class="line"><span class="function"><span class="title">log_temp</span></span>() &#123;</span><br><span class="line">    <span class="built_in">local</span> NODE=<span class="variable">$1</span></span><br><span class="line">    <span class="built_in">local</span> TEMP=<span class="variable">$2</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;<span class="subst">$(date)</span>: <span class="variable">$&#123;NODE&#125;</span> - Temperature: <span class="variable">$&#123;TEMP&#125;</span>°C&quot;</span> &gt;&gt; <span class="string">&quot;<span class="variable">$&#123;LOGFILE&#125;</span>&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监控每个节点的主板温度</span></span><br><span class="line"><span class="keyword">for</span> NODE <span class="keyword">in</span> <span class="string">&quot;<span class="variable">$&#123;NODES[@]&#125;</span>&quot;</span>; <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Checking temperature on <span class="variable">$&#123;NODE&#125;</span>...&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 使用 IPMI 工具获取温度信息</span></span><br><span class="line">    TEMP=$(ipmitool -I <span class="variable">$&#123;IPMI_INTERFACE&#125;</span> -H <span class="variable">$&#123;NODE&#125;</span> -U <span class="variable">$&#123;IPMI_USER&#125;</span> -P <span class="variable">$&#123;IPMI_PASS&#125;</span> sdr | grep -i <span class="string">&quot;System Temp&quot;</span> | awk <span class="string">&#x27;&#123;print $NF&#125;&#x27;</span> | sed <span class="string">&#x27;s/°C//&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> [ -z <span class="string">&quot;<span class="variable">$TEMP</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Failed to get temperature from <span class="variable">$&#123;NODE&#125;</span>&quot;</span> &gt;&gt; <span class="string">&quot;<span class="variable">$&#123;LOGFILE&#125;</span>&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        log_temp <span class="string">&quot;<span class="variable">$&#123;NODE&#125;</span>&quot;</span> <span class="string">&quot;<span class="variable">$&#123;TEMP&#125;</span>&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Temperature monitoring completed.&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/08/19/%E5%9F%BA%E4%BA%8Egodot%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E9%83%A8%E7%BD%B2%E5%BE%AE%E4%BF%A1%E5%B0%8F%E6%B8%B8%E6%88%8F/" rel="prev" title="基于Godot引擎开发的游戏部署于微信平台">
+                  <i class="fa fa-angle-left"></i> 基于Godot引擎开发的游戏部署于微信平台
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Junting-Li</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/junting-123" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
